@@ -69,7 +69,7 @@
       <h2>Step-by-step flow</h2>
       <ol class="flow">
         <li>GitHub Action polls AfterShip for <code>tag=Delivered</code>.</li>
-        <li>Script skips anything handled in the last 30 days (state file). ||Line 182 to Enable #Skip</li>
+        <li>Lookback on 30days if T&T already had a message, if so skip to rework on custom reference</li>
         <li>Create downloadable JSON/XLS File <code>site/data/</code>.</li>
       </ol>
     </section>
