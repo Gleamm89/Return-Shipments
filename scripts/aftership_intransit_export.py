@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 from openpyxl import Workbook
 
 AFTERSHIP_KEY = os.environ["AFTERSHIP_API_KEY"]
-BASE_URL = "https://api.aftership.com/v4"
+BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
 STATE_DIR = "state"
 STATE_PATH = os.path.join(STATE_DIR, "handled.json")
