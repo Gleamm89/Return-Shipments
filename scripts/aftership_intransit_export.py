@@ -29,7 +29,7 @@ def save_state(state):
 def get_intransit_trackings(limit=200):
     headers = {"Content-Type": "application/json", "as-api-key": AFTERSHIP_KEY}
     params = {
-        "tag": "InTransit",
+        "tag": "Delivered",
         "limit": str(limit),
         # Optional if you tag return labels:
         # "shipment_tags": "returns"
