@@ -1,0 +1,46 @@
+name: AfterShip InTransit Export
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install requests openpyxl
+
+      - name: Restore handled state (30-day dedupe)
+        uses: actions/cache@v4
+        with:
+          path: state
+          key: aftership-handled-state
+          restore-keys: |
+            aftership-handled-state
+
+      - name: Run export
+        env:
+          AFTERSHIP_API_KEY: ${{ secrets.AFTERSHIP_API_KEY }}
+        run: |
+          python scripts/aftership_intransit_export.py
+
+      - name: Upload output files
+        uses: actions/upload-artifact@v4
+        with:
+          name: aftership-intransit-output
+          path: output/*
+
+      - name: Save handled state (30-day dedupe)
+        uses: actions/cache@v4
+        with:
+          path: state
+          key: aftership-handled-state
