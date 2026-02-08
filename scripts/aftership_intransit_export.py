@@ -212,7 +212,11 @@ def main():
     now = utcnow()
     handled = load_state()
 
-    trackings = get_trackings_by_tag(limit=200)
+
+    trackings = get_trackings_by_tag(limit=1)
+    print(json.dumps(trackings[0], indent=2))
+
+    
     new_trackings = [t for t in trackings if not should_skip(t, handled, now)]
 
     rows = normalize(new_trackings)
