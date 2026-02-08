@@ -1,18 +1,27 @@
 const $ = (id) => document.getElementById(id);
 
 let rows = [];
-
 function fmtDate(s){
   if(!s) return "";
+
+  // If value is already a string like:
+  // "2026-02-08 12:16:34.000 UTC"
+  if (typeof s === "string" && s.includes(" ")) {
+    const timePart = s.split(" ")[1]; // "12:16:34.000"
+    return timePart.split(".")[0] + " UTC"; // "12:16:34 UTC"
+  }
+
+  // Fallback: real Date object or ISO string
   const d = new Date(s);
   if (Number.isNaN(d.getTime())) return s;
 
-  // Shows HH:MM:SS (24-hour format)
-  return d.toLocaleTimeString('en-GB', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  }) + 'UTC';
+  return (
+    d.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    }) + ' UTC'
+  );
 }
 
 
