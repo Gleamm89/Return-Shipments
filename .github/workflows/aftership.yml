@@ -1,9 +1,12 @@
-name: AfterShip InTransit Export
+name: AfterShip InTransit Export + UI
 
 on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run:
@@ -19,6 +22,8 @@ jobs:
         run: |
           pip install requests openpyxl
 
+      # Keep your existing state logic (handled.json). If you're currently using cache,
+      # you can keep it. (We can improve this later if needed.)
       - name: Restore handled state (30-day dedupe)
         uses: actions/cache@v4
         with:
@@ -33,11 +38,34 @@ jobs:
         run: |
           python scripts/aftership_intransit_export.py
 
-      - name: Upload output files
-        uses: actions/upload-artifact@v4
+      - name: Prepare site data
+        run: |
+          mkdir -p site/data
+          cp -f output/returns_intransit.json site/data/returns_intransit.json
+          cp -f output/returns_intransit.xlsx site/data/returns_intransit.xlsx
+
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+
+          # read the JSON we just produced
+          with open("site/data/returns_intransit.json","r",encoding="utf-8") as f:
+            data = json.load(f)
+
+          meta = {
+            "generated_at": data.get("generated_at") or datetime.now(timezone.utc).isoformat(),
+            "count": data.get("count") if isinstance(data.get("count"), int) else len(data.get("items") or []),
+          }
+
+          with open("site/data/meta.json","w",encoding="utf-8") as f:
+            json.dump(meta, f, indent=2)
+          PY
+
+      - name: Deploy UI to GitHub Pages (gh-pages branch)
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: aftership-intransit-output
-          path: output/*
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
 
       - name: Save handled state (30-day dedupe)
         uses: actions/cache@v4
