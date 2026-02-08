@@ -4,14 +4,17 @@ let rows = [];
 
 function fmtDate(s){
   if(!s) return "";
-  try{
-    const d = new Date(s);
-    if(Number.isNaN(d.getTime())) return s;
-    return d.toISOString().replace("T"," ").replace("Z"," UTC");
-  }catch{
-    return s;
-  }
+  const d = new Date(s);
+  if (Number.isNaN(d.getTime())) return s;
+
+  // Shows HH:MM:SS (24-hour format)
+  return d.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  }) + 'UTC';
 }
+
 
 function carrierText(r){
   // Prefer the friendly name; fallback to slug
