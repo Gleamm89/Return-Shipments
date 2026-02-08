@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Return Shipments — InTransit Monitor</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div>
+        <h1>Return Shipments — InTransit Monitor</h1>
+        <p class="sub">
+          Auto-exported from AfterShip. Dedupe window: <b>30 days</b>.
+        </p>
+      </div>
+
+      <div class="actions">
+        <a class="btn" id="downloadXlsx" href="./data/returns_intransit.xlsx" download>Download XLSX</a>
+        <a class="btn btn-ghost" id="downloadJson" href="./data/returns_intransit.json" download>Download JSON</a>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="statusRow">
+        <div class="status">
+          <span class="pill" id="pill">Loading…</span>
+          <span class="muted" id="metaText">Fetching latest export</span>
+        </div>
+
+        <div class="filters">
+          <input id="search" class="input" placeholder="Search tracking number / order_id / carrier…" />
+          <button id="refresh" class="btn btn-ghost" type="button">Refresh</button>
+        </div>
+      </div>
+
+      <div class="tableWrap">
+        <table class="table" id="table">
+          <thead>
+            <tr>
+              <th>Tracking</th>
+              <th>Carrier</th>
+              <th>Status</th>
+              <th>Order ID</th>
+              <th>Last checkpoint time</th>
+              <th>Location</th>
+              <th>Updated</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td colspan="7" class="muted">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="footer">
+        <span class="muted" id="countText"></span>
+      </footer>
+    </section>
+
+    <section class="card">
+      <h2>Step-by-step flow</h2>
+      <ol class="flow">
+        <li>GitHub Action polls AfterShip for <code>tag=InTransit</code>.</li>
+        <li>Script skips anything handled in the last 30 days (state file).</li>
+        <li>Script writes JSON + XLSX outputs into <code>site/data/</code>.</li>
+        <li>Action deploys <code>site/</code> to GitHub Pages.</li>
+        <li>This UI loads the JSON and renders the table + download buttons.</li>
+      </ol>
+    </section>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
