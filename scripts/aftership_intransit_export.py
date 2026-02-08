@@ -107,8 +107,9 @@ def should_skip(tracking: dict, handled_state: dict, now: datetime) -> bool:
         last_dt = datetime.fromisoformat(last)
     except Exception:
         return False
-    return (now - last_dt) < timedelta(days=DEDUP_DAYS)
-
+        return False
+    #return (now - last_dt) < timedelta(days=DEDUP_DAYS)
+#line above to be discoded
 
 def mark_handled(trackings: list[dict], handled_state: dict, now: datetime) -> None:
     for t in trackings:
