@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-08T13:19:30.239759+00:00",
+  "generated_at": "2026-02-08T13:24:31.319083+00:00",
   "tag": "Delivered",
   "dedup_enabled": false,
   "dedup_days": 0,
@@ -8,6 +8,7 @@
     {
       "tracking_number": "TEST_GDPR",
       "carrier_slug": "dbschenker-se",
+      "courier_name": "DB Schenker",
       "status_tag": "Delivered",
       "title": "SHIPMENT_TITLE",
       "order_id": "12345",
@@ -23,6 +24,7 @@
     {
       "tracking_number": "TEST_TRACKING_DECEMBER",
       "carrier_slug": "dhl",
+      "courier_name": "DHL Express",
       "status_tag": "Delivered",
       "title": "TEST_Tracking_December",
       "order_id": "",
@@ -36,6 +38,7 @@
     {
       "tracking_number": "TEST_TRACKING",
       "carrier_slug": "kn",
+      "courier_name": "kn",
       "status_tag": "Delivered",
       "title": "ZFRE",
       "order_id": "",
@@ -49,6 +52,7 @@
     {
       "tracking_number": "ITD-0-12345678",
       "carrier_slug": "testing-courier",
+      "courier_name": "testing-courier",
       "status_tag": "Delivered",
       "title": "ITD-0-12345678",
       "order_id": "",
