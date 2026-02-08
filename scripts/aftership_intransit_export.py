@@ -8,29 +8,28 @@ from openpyxl import Workbook
 # Config
 # =========================
 AFTERSHIP_KEY = os.environ["AFTERSHIP_API_KEY"]
-
-# AfterShip Tracking API base (you used this earlier)
 BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
-# Change this if you want a different status
-AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")  # e.g. InTransit, Exception, OutForDelivery
+AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")  # e.g. InTransit, Delivered, Exception
+ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "OrderID")
 
-# The custom field name in AfterShip you mentioned
-ORDER_ID_CUSTOM_FIELD = "OrderID"
+# Dedupe controls (set in workflow env if you want)
+DEDUP_DAYS = int(os.environ.get("DEDUP_DAYS", "30"))          # set 0 to disable
+DEDUP_ENABLED = os.environ.get("DEDUP_ENABLED", "1") == "1"   # set 0 to disable
+DEBUG_AFTERSHIP = os.environ.get("DEBUG_AFTERSHIP", "0") == "1"
 
 STATE_DIR = "state"
 STATE_PATH = os.path.join(STATE_DIR, "handled.json")
-DEDUP_DAYS = 30
 
 
 # =========================
 # Helpers
 # =========================
-def utcnow():
+def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def load_state():
+def load_state() -> dict:
     os.makedirs(os.path.dirname(STATE_PATH), exist_ok=True)
     if not os.path.exists(STATE_PATH):
         return {}
@@ -38,7 +37,7 @@ def load_state():
         return json.load(f)
 
 
-def save_state(state):
+def save_state(state: dict) -> None:
     os.makedirs(os.path.dirname(STATE_PATH), exist_ok=True)
     with open(STATE_PATH, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2)
@@ -46,10 +45,9 @@ def save_state(state):
 
 def get_custom_field(tracking: dict, field_name: str) -> str:
     """
-    AfterShip custom_fields can appear as:
+    custom_fields can be:
       - dict: {"OrderID": "123", ...}
       - list: [{"name":"OrderID","value":"123"}, ...]
-    This function supports both.
     """
     cf = tracking.get("custom_fields")
 
@@ -59,18 +57,41 @@ def get_custom_field(tracking: dict, field_name: str) -> str:
 
     if isinstance(cf, list):
         for item in cf:
-            if not isinstance(item, dict):
-                continue
-            if item.get("name") == field_name:
+            if isinstance(item, dict) and item.get("name") == field_name:
                 val = item.get("value")
                 return "" if val is None else str(val)
 
     return ""
 
 
+def get_all_custom_fields(tracking: dict) -> dict:
+    """
+    Return all custom fields as a plain dict[str, str] (JSON-friendly).
+    Supports both dict and list shapes.
+    """
+    cf = tracking.get("custom_fields")
+
+    if isinstance(cf, dict):
+        return {str(k): "" if v is None else str(v) for k, v in cf.items()}
+
+    if isinstance(cf, list):
+        out = {}
+        for item in cf:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name")
+            if name is None:
+                continue
+            val = item.get("value")
+            out[str(name)] = "" if val is None else str(val)
+        return out
+
+    return {}
+
+
 def extract_last_checkpoint(tracking: dict) -> dict:
     """
-    Robustly find a "last checkpoint" object across possible response shapes.
+    Robustly find a "last checkpoint" object across possible shapes.
     Tries:
       - last_checkpoint
       - latest_checkpoint
@@ -90,7 +111,7 @@ def extract_last_checkpoint(tracking: dict) -> dict:
 
 def key_for_tracking(tracking: dict) -> str:
     """
-    Dedupe key includes TAG so a shipment can be handled once per status.
+    Includes tag so the same tracking can be handled once per status.
     """
     tag = tracking.get("tag") or AFTERSHIP_TAG or "UNKNOWN"
     slug = tracking.get("slug") or ""
@@ -99,17 +120,25 @@ def key_for_tracking(tracking: dict) -> str:
 
 
 def should_skip(tracking: dict, handled_state: dict, now: datetime) -> bool:
+    """
+    Skip if we handled this key within the last DEDUP_DAYS (if enabled).
+    Set DEDUP_ENABLED=0 or DEDUP_DAYS=0 to disable.
+    """
+    if not DEDUP_ENABLED or DEDUP_DAYS <= 0:
+        return False
+
     k = key_for_tracking(tracking)
     last = handled_state.get(k)
     if not last:
         return False
+
     try:
         last_dt = datetime.fromisoformat(last)
     except Exception:
         return False
-        return False
-    #return (now - last_dt) < timedelta(days=DEDUP_DAYS)
-#line above to be discoded
+
+    return (now - last_dt) < timedelta(days=DEDUP_DAYS)
+
 
 def mark_handled(trackings: list[dict], handled_state: dict, now: datetime) -> None:
     for t in trackings:
@@ -119,20 +148,15 @@ def mark_handled(trackings: list[dict], handled_state: dict, now: datetime) -> N
 # =========================
 # AfterShip API
 # =========================
-def get_trackings_by_tag(limit=200) -> list[dict]:
+def get_trackings_by_tag(limit: int = 200) -> list[dict]:
     headers = {"Content-Type": "application/json", "as-api-key": AFTERSHIP_KEY}
     params = {
         "tag": AFTERSHIP_TAG,
         "limit": str(limit),
-        # Optional if you tag return labels:
-        # "shipment_tags": "returns",
-        # Optional if you want only return-to-sender:
-        # "return_to_sender": "true",
     }
 
     r = requests.get(f"{BASE_URL}/trackings", headers=headers, params=params, timeout=30)
 
-    # Better error visibility in Actions logs
     if not r.ok:
         print("AfterShip request failed.")
         print("URL:", r.url)
@@ -152,11 +176,12 @@ def normalize(trackings: list[dict]) -> list[dict]:
     for t in trackings:
         last_cp = extract_last_checkpoint(t)
 
-        # Location can be a single "location" string or split across fields.
         location = last_cp.get("location")
         if not location:
             parts = [last_cp.get("city"), last_cp.get("state"), last_cp.get("country_name")]
             location = " ".join([p for p in parts if p])
+
+        custom_fields = get_all_custom_fields(t)
 
         rows.append({
             "tracking_number": t.get("tracking_number") or "",
@@ -164,8 +189,14 @@ def normalize(trackings: list[dict]) -> list[dict]:
             "status_tag": t.get("tag") or AFTERSHIP_TAG or "",
             "title": t.get("title") or "",
 
-            # Map AfterShip custom field OrderID into a standard column
+            # Your specific mapping (used by the UI column "Order ID")
             "order_id": get_custom_field(t, ORDER_ID_CUSTOM_FIELD),
+
+            # All custom fields in JSON export
+            "custom_fields": custom_fields,
+
+            # Also provide a stringified version for XLSX convenience
+            "custom_fields_json": json.dumps(custom_fields, ensure_ascii=False),
 
             "last_checkpoint_id": (last_cp.get("id") or last_cp.get("checkpoint_id") or ""),
             "last_checkpoint_time": (last_cp.get("checkpoint_time") or ""),
@@ -178,6 +209,9 @@ def normalize(trackings: list[dict]) -> list[dict]:
 def write_json(rows: list[dict], path: str) -> None:
     payload = {
         "generated_at": utcnow().isoformat(),
+        "tag": AFTERSHIP_TAG,
+        "dedup_enabled": DEDUP_ENABLED,
+        "dedup_days": DEDUP_DAYS,
         "count": len(rows),
         "items": rows,
     }
@@ -200,6 +234,7 @@ def write_xlsx(rows: list[dict], path: str) -> None:
         "last_checkpoint_location",
         "updated_at",
         "title",
+        "custom_fields_json",
     ]
 
     ws.append(headers)
@@ -213,23 +248,27 @@ def main():
     now = utcnow()
     handled = load_state()
 
+    trackings = get_trackings_by_tag(limit=200)
 
-    trackings = get_trackings_by_tag(limit=51)
-    print(json.dumps(trackings[0], indent=2))
+    if DEBUG_AFTERSHIP and trackings:
+        print("=== RAW AFTERSHIP TRACKING (1 item) ===")
+        print(json.dumps(trackings[0], indent=2))
+        print("=== END RAW TRACKING ===")
 
-    
     new_trackings = [t for t in trackings if not should_skip(t, handled, now)]
-
     rows = normalize(new_trackings)
 
     os.makedirs("output", exist_ok=True)
     write_json(rows, "output/returns_intransit.json")
     write_xlsx(rows, "output/returns_intransit.xlsx")
 
-    mark_handled(new_trackings, handled, now)
-    save_state(handled)
+    # Only update state if dedupe is enabled (keeps behavior predictable)
+    if DEDUP_ENABLED and DEDUP_DAYS > 0:
+        mark_handled(new_trackings, handled, now)
+        save_state(handled)
 
-    print(f"Tag={AFTERSHIP_TAG} API returned={len(trackings)} after_dedupe={len(new_trackings)}")
+    print(f"Tag={AFTERSHIP_TAG} API returned={len(trackings)} after_dedupe={len(new_trackings)} "
+          f"(dedup_enabled={DEDUP_ENABLED} dedup_days={DEDUP_DAYS})")
 
 
 if __name__ == "__main__":
