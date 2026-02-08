@@ -43,8 +43,9 @@ def get_intransit_trackings(limit=200):
     return data.get("data", {}).get("trackings", [])
 
 def key_for_tracking(t):
-    # More collision-safe than just tracking_number:
-    return f"{t.get('slug','')}/{t.get('tracking_number','')}"
+    tag = t.get("tag") or "UNKNOWN"
+    return f"{tag}/{t.get('slug','')}/{t.get('tracking_number','')}"
+
 
 def should_skip(t, handled_state, now):
     k = key_for_tracking(t)
