@@ -19,7 +19,7 @@ function fmtDate(s){
     second: '2-digit'
   });
 
-  return `${date} ${time} UTC`;
+  return `${date} - ${time} UTC`;
 }
 
 
