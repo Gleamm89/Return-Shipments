@@ -13,7 +13,7 @@
 
   --vx-ink:#111827;
   --vx-muted:#6b7280;
-
+   --vx-white:#FFFFFF;
   --vx-card:rgba(255,255,255,.92);
   --vx-shadow:0 14px 34px rgba(0,0,0,.18);
   --vx-radius:18px;
@@ -112,13 +112,13 @@ h1{
 }
 
 .pill.ok{
-  background: rgba(34,197,94,.15);
-  color: var(--vx-green);
+  background: rgba(122,16,101,.15);
+  color: var(--vx-white);
 }
 
 .pill.warn{
-  background: rgba(255,106,0,.15);
-  color: var(--vx-orange);
+  background: rgba(242,194,0,.15);
+  color: var(--vx-white);
 }
 
 /* Buttons */
