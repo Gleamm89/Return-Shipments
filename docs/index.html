@@ -68,11 +68,9 @@
     <section class="card">
       <h2>Step-by-step flow</h2>
       <ol class="flow">
-        <li>GitHub Action polls AfterShip for <code>tag=InTransit</code>.</li>
-        <li>Script skips anything handled in the last 30 days (state file).</li>
-        <li>Script writes JSON + XLSX outputs into <code>site/data/</code>.</li>
-        <li>Action deploys <code>site/</code> to GitHub Pages.</li>
-        <li>This UI loads the JSON and renders the table + download buttons.</li>
+        <li>GitHub Action polls AfterShip for <code>tag=Delivered</code>.</li>
+        <li>Script skips anything handled in the last 30 days (state file). ||Line 182 to Enable #Skip</li>
+        <li>Create downloadable JSON/XLS File <code>site/data/</code>.</li>
       </ol>
     </section>
   </div>
