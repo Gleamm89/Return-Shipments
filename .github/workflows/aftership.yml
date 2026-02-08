@@ -11,36 +11,39 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install requests openpyxl
 
-      # Keep your existing state logic (handled.json). If you're currently using cache,
-      # you can keep it. (We can improve this later if needed.)
+      # Restore dedupe state (best-effort)
       - name: Restore handled state (30-day dedupe)
         uses: actions/cache@v4
         with:
           path: state
-          key: aftership-handled-state
+          key: aftership-handled-state-${{ github.run_id }}
           restore-keys: |
-            aftership-handled-state
+            aftership-handled-state-
 
-      - name: Run export
+      - name: Run AfterShip export
         env:
           AFTERSHIP_API_KEY: ${{ secrets.AFTERSHIP_API_KEY }}
         run: |
           python scripts/aftership_intransit_export.py
 
-      - name: Prepare site data
+      - name: Prepare docs data for GitHub Pages
         run: |
           mkdir -p docs/data
+
           cp -f output/returns_intransit.json docs/data/returns_intransit.json
           cp -f output/returns_intransit.xlsx docs/data/returns_intransit.xlsx
 
@@ -48,27 +51,22 @@ jobs:
           import json
           from datetime import datetime, timezone
 
-          # read the JSON we just produced
-          with open("docs/data/returns_intransit.json","r",encoding="utf-8") as f:
-            data = json.load(f)
+          with open("docs/data/returns_intransit.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
 
           meta = {
-            "generated_at": data.get("generated_at") or datetime.now(timezone.utc).isoformat(),
-            "count": data.get("count") if isinstance(data.get("count"), int) else len(data.get("items") or []),
+              "generated_at": data.get("generated_at") or datetime.now(timezone.utc).isoformat(),
+              "count": data.get("count") if isinstance(data.get("count"), int)
+                       else len(data.get("items") or []),
           }
 
-          with open("docs/data/meta.json","w",encoding="utf-8") as f:
-            json.dump(meta, f, indent=2)
+          with open("docs/data/meta.json", "w", encoding="utf-8") as f:
+              json.dump(meta, f, indent=2)
           PY
 
-      - name: Deploy UI to GitHub Pages (gh-pages branch)
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-
+      # Save updated dedupe state
       - name: Save handled state (30-day dedupe)
         uses: actions/cache@v4
         with:
           path: state
-          key: aftership-handled-state
+          key: aftership-handled-state-${{ github.run_id }}
