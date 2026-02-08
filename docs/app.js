@@ -6,15 +6,20 @@ function fmtDate(s){
   const d = new Date(s);
   if (Number.isNaN(d.getTime())) return String(s);
 
-  // Force UTC time + show hours/minutes/seconds
-  const t = d.toLocaleTimeString('en-GB', {
+  // Date part: YYYY-MM-DD (UTC)
+  const date = d.toLocaleDateString('en-CA', {
+    timeZone: 'UTC'
+  });
+
+  // Time part: HH:MM:SS (UTC)
+  const time = d.toLocaleTimeString('en-GB', {
     timeZone: 'UTC',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
+    second: '2-digit'
   });
 
-  return t + " UTC";
+  return `${date} ${time} UTC`;
 }
 
 
