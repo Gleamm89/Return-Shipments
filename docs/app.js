@@ -33,7 +33,6 @@ function renderTable(list){
       <td>${r.status_tag || ""}</td>
       <td>${r.order_id || ""}</td>
       <td>${fmtDate(r.last_checkpoint_time)}</td>
-      <td>${r.last_checkpoint_location || ""}</td>
       <td>${fmtDate(r.updated_at)}</td>
     </tr>
   `).join("");
@@ -56,7 +55,6 @@ function applySearch(){
       r.courier_name,     // NEW: searchable
       r.carrier_slug,
       r.status_tag,
-      r.last_checkpoint_location,
       r.updated_at
     ].join(" ").toLowerCase();
 
