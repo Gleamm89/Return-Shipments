@@ -26,7 +26,7 @@ function renderTable(list){
     return;
   }
 
-  const html = list.slice(0, 500).map(r => `
+  const html = list.slice(0, 200).map(r => `
     <tr>
       <td>${r.tracking_number || ""}</td>
       <td>${carrierText(r)}</td>
@@ -39,7 +39,7 @@ function renderTable(list){
   `).join("");
 
   tbody.innerHTML = html;
-  $("countText").textContent = `${list.length} records (showing up to first 500 in table)`;
+  $("countText").textContent = `${list.length} records (showing up to first 200 in table)`;
 }
 
 function applySearch(){
