@@ -13,6 +13,11 @@ function fmtDate(s){
   }
 }
 
+function carrierText(r){
+  // Prefer the friendly name; fallback to slug
+  return r.courier_name || r.carrier_slug || "";
+}
+
 function renderTable(list){
   const tbody = $("tbody");
   if(!list.length){
@@ -24,7 +29,7 @@ function renderTable(list){
   const html = list.slice(0, 500).map(r => `
     <tr>
       <td>${r.tracking_number || ""}</td>
-      <td>${r.carrier_slug || ""}</td>
+      <td>${carrierText(r)}</td>
       <td>${r.status_tag || ""}</td>
       <td>${r.order_id || ""}</td>
       <td>${fmtDate(r.last_checkpoint_time)}</td>
@@ -43,13 +48,21 @@ function applySearch(){
     renderTable(rows);
     return;
   }
+
   const filtered = rows.filter(r => {
     const hay = [
-      r.tracking_number, r.order_id, r.carrier_slug, r.status_tag,
-      r.last_checkpoint_location, r.updated_at
+      r.tracking_number,
+      r.order_id,
+      r.courier_name,     // NEW: searchable
+      r.carrier_slug,
+      r.status_tag,
+      r.last_checkpoint_location,
+      r.updated_at
     ].join(" ").toLowerCase();
+
     return hay.includes(q);
   });
+
   renderTable(filtered);
 }
 
