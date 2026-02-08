@@ -214,7 +214,7 @@ def main():
     handled = load_state()
 
 
-    trackings = get_trackings_by_tag(limit=1)
+    trackings = get_trackings_by_tag(limit=51)
     print(json.dumps(trackings[0], indent=2))
 
     
