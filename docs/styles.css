@@ -249,3 +249,13 @@ code{
   border-radius:8px;
   font-size:13px;
 }
+/* FORCE green Download JSON button */
+.btn.btn-green{
+  background: var(--vx-green) !important;
+  color: #fff;
+  border: none;
+}
+
+.btn.btn-green:hover{
+  background: var(--vx-green-2) !important;
+}
