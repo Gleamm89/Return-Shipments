@@ -21,7 +21,7 @@ function carrierText(r){
 function renderTable(list){
   const tbody = $("tbody");
   if(!list.length){
-    tbody.innerHTML = `<tr><td colspan="7" class="muted">No records to show.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="muted">No records to show.</td></tr>`;
     $("countText").textContent = "0 records";
     return;
   }
