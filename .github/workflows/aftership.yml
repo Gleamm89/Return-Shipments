@@ -27,7 +27,7 @@ jobs:
         run: |
           pip install requests openpyxl
 
-      - name: Restore handled state (30-day dedupe)
+      - name: Restore handled state (optional)
         uses: actions/cache@v4
         with:
           path: state
@@ -38,6 +38,17 @@ jobs:
       - name: Run AfterShip export
         env:
           AFTERSHIP_API_KEY: ${{ secrets.AFTERSHIP_API_KEY }}
+
+          # Choose the tag you want:
+          AFTERSHIP_TAG: Delivered
+
+          # IMPORTANT: disable "skip if handled in last 30 days"
+          # (prevents empty exports like count:0)
+          DEDUP_ENABLED: "0"
+          DEDUP_DAYS: "0"
+
+          # Optional: set to "1" to print 1 raw tracking to logs (debug)
+          DEBUG_AFTERSHIP: "0"
         run: |
           python scripts/aftership_intransit_export.py
 
@@ -72,7 +83,6 @@ jobs:
 
           git add docs/data/*
 
-          # Commit only if something changed
           if git diff --cached --quiet; then
             echo "No changes in docs/data to commit."
             exit 0
@@ -81,7 +91,7 @@ jobs:
           git commit -m "Update return shipments data (auto)"
           git push
 
-      - name: Save handled state (30-day dedupe)
+      - name: Save handled state (optional)
         uses: actions/cache@v4
         with:
           path: state
