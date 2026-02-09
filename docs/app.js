@@ -1,17 +1,13 @@
 const $ = (id) => document.getElementById(id);
 
 let rows = [];
+
 function fmtDate(s){
   if(!s) return "";
   const d = new Date(s);
   if (Number.isNaN(d.getTime())) return String(s);
 
-  // Date part: YYYY-MM-DD (UTC)
-  const date = d.toLocaleDateString('en-CA', {
-    timeZone: 'UTC'
-  });
-
-  // Time part: HH:MM:SS (UTC)
+  const date = d.toLocaleDateString('en-CA', { timeZone: 'UTC' });
   const time = d.toLocaleTimeString('en-GB', {
     timeZone: 'UTC',
     hour: '2-digit',
@@ -22,11 +18,19 @@ function fmtDate(s){
   return `${date} - ${time} UTC`;
 }
 
-
-
 function carrierText(r){
-  // Prefer the friendly name; fallback to slug
   return r.courier_name || r.carrier_slug || "";
+}
+
+// ✅ Fallback helpers (important!)
+function getOrderId(r){
+  return r.order_id || r.custom_fields?.external_order_id || r.custom_fields?.order_id || "";
+}
+function getSalesOffice(r){
+  return r.sales_office_id || r.custom_fields?.sales_office_id || "";
+}
+function getSource(r){
+  return r.source || r.custom_fields?.source || "";
 }
 
 function renderTable(list){
@@ -42,9 +46,9 @@ function renderTable(list){
       <td>${r.tracking_number || ""}</td>
       <td>${carrierText(r)}</td>
       <td>${r.status_tag || ""}</td>
-      <td>${r.order_id || ""}</td>
-      <td>${r.sales_office_id || ""}</td>
-      <td>${r.source || ""}</td>
+      <td>${getOrderId(r)}</td>
+      <td>${getSalesOffice(r)}</td>
+      <td>${getSource(r)}</td>
       <td>${fmtDate(r.last_checkpoint_time)}</td>
       <td>${fmtDate(r.updated_at)}</td>
     </tr>
@@ -64,10 +68,10 @@ function applySearch(){
   const filtered = rows.filter(r => {
     const hay = [
       r.tracking_number,
-      r.order_id,
-      r.sales_office_id,
-      r.source,
-      r.courier_name,     // NEW: searchable
+      getOrderId(r),
+      getSalesOffice(r),
+      getSource(r),
+      r.courier_name,
       r.carrier_slug,
       r.status_tag,
       r.updated_at
