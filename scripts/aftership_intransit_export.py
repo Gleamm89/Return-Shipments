@@ -163,12 +163,13 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
         # ✅ Business fields (from custom_fields)
         order_id = custom_fields.get(ORDER_ID_CUSTOM_FIELD, "")
         sales_office_id = custom_fields.get("sales_office_id", "")
-        source = custom_fields.get("source", "")
+
 
         # ✅ Rule 1: if custom_1 == ParcelHub -> wipe tracking info
         is_parcelhub = custom_fields.get("custom_1", "").strip().lower() == "parcelhub"
 
         tracking_number = t.get("tracking_number") or ""
+        source = t.get("source") or "")
         status_tag = t.get("tag") or AFTERSHIP_TAG or ""
         title = t.get("title") or ""
         last_checkpoint_id = (last_cp.get("id") or last_cp.get("checkpoint_id") or "")
