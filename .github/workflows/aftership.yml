@@ -58,7 +58,6 @@ jobs:
 
           cp -f output/returns_intransit.json docs/data/returns_intransit.json
           cp -f output/returns_intransit.xlsx docs/data/returns_intransit.xlsx
-          cp -f output/aftership_raw_trackings.json docs/data/aftership_raw_trackings.json
 
 
           python - <<'PY'
