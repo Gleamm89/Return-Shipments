@@ -268,14 +268,13 @@ def main():
 
     trackings = get_trackings_by_tag(limit=200)
 
+    # ✅ DEBUG: dump RAW AfterShip API payload (no transformation)
+    os.makedirs("output", exist_ok=True)
+    with open("output/aftership_raw_trackings.json", "w", encoding="utf-8") as f:
+        json.dump(trackings, f, ensure_ascii=False, indent=2)
+    print("Wrote output/aftership_raw_trackings.json")
 
-    # ✅ Dump RAW AfterShip API payload (no transformation)
-os.makedirs("output", exist_ok=True)
-with open("output/aftership_raw_trackings.json", "w", encoding="utf-8") as f:
-    json.dump(trackings, f, ensure_ascii=False, indent=2)
-print("Wrote output/aftership_raw_trackings.json")
-
-
+    # ✅ DEBUG: print ONE raw tracking to logs
     if DEBUG_AFTERSHIP and trackings:
         print("=== RAW AFTERSHIP TRACKING (1 item) ===")
         print(json.dumps(trackings[0], indent=2))
@@ -293,10 +292,10 @@ print("Wrote output/aftership_raw_trackings.json")
         save_state(handled)
 
     print(
-        f"Tag={AFTERSHIP_TAG} API returned={len(trackings)} after_dedupe={len(new_trackings)} "
+        f"Tag={AFTERSHIP_TAG} API returned={len(trackings)} "
+        f"after_dedupe={len(new_trackings)} "
         f"(dedup_enabled={DEDUP_ENABLED} dedup_days={DEDUP_DAYS})"
     )
-
 
 if __name__ == "__main__":
     main()
