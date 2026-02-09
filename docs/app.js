@@ -22,7 +22,7 @@ function carrierText(r){
   return r.courier_name || r.carrier_slug || "";
 }
 
-// ✅ Fallback helpers (important!)
+// Fallback helpers (works whether fields are top-level or only in custom_fields)
 function getOrderId(r){
   return r.order_id || r.custom_fields?.external_order_id || r.custom_fields?.order_id || "";
 }
@@ -33,15 +33,44 @@ function getSource(r){
   return r.source || r.custom_fields?.source || "";
 }
 
+// ✅ Decide whether to show a row in the table
+// Hide "tracking-excluded" rows (ParcelHub) unless they still carry business info
+function shouldShowRow(r){
+  const hasTrackingInfo = Boolean(
+    (r.tracking_number && String(r.tracking_number).trim()) ||
+    (r.status_tag && String(r.status_tag).trim()) ||
+    (carrierText(r) && String(carrierText(r)).trim())
+  );
+
+  const hasBusinessInfo = Boolean(
+    (getOrderId(r) && String(getOrderId(r)).trim()) ||
+    (getSalesOffice(r) && String(getSalesOffice(r)).trim()) ||
+    (getSource(r) && String(getSource(r)).trim())
+  );
+
+  // If it has tracking info -> show
+  if (hasTrackingInfo) return true;
+
+  // If no tracking info but has business info -> show
+  if (hasBusinessInfo) return true;
+
+  // Otherwise hide
+  return false;
+}
+
 function renderTable(list){
   const tbody = $("tbody");
-  if(!list.length){
+
+  // ✅ FILTER HERE: hide tracking-excluded / empty rows
+  const visible = list.filter(shouldShowRow);
+
+  if(!visible.length){
     tbody.innerHTML = `<tr><td colspan="8" class="muted">No records to show.</td></tr>`;
     $("countText").textContent = "0 records";
     return;
   }
 
-  const html = list.slice(0, 200).map(r => `
+  const html = visible.slice(0, 200).map(r => `
     <tr>
       <td>${r.tracking_number || ""}</td>
       <td>${carrierText(r)}</td>
@@ -55,17 +84,22 @@ function renderTable(list){
   `).join("");
 
   tbody.innerHTML = html;
-  $("countText").textContent = `${list.length} records (showing up to first 200 in table)`;
+  $("countText").textContent =
+    `${visible.length} records (showing up to first 200 in table)`;
 }
 
 function applySearch(){
   const q = $("search").value.trim().toLowerCase();
+
+  // Always apply visibility filter first (so ParcelHub blanks remain hidden)
+  const base = rows.filter(shouldShowRow);
+
   if(!q){
-    renderTable(rows);
+    renderTable(base);
     return;
   }
 
-  const filtered = rows.filter(r => {
+  const filtered = base.filter(r => {
     const hay = [
       r.tracking_number,
       getOrderId(r),
@@ -106,7 +140,9 @@ async function loadData(){
     const data = await res.json();
 
     rows = data.items || [];
-    renderTable(rows);
+
+    // render via applySearch so filtering is consistent
+    applySearch();
 
     const ts = meta?.generated_at || data.generated_at || null;
     const count = meta?.count ?? data.count ?? rows.length;
@@ -114,7 +150,6 @@ async function loadData(){
     $("pill").textContent = "OK";
     $("pill").className = "pill ok";
     $("metaText").textContent = `Last updated: ${fmtDate(ts)} • Count: ${count}`;
-
   }catch(err){
     rows = [];
     renderTable(rows);
