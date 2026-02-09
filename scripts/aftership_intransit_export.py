@@ -5,31 +5,22 @@ import requests
 from datetime import datetime, timezone, timedelta
 from openpyxl import Workbook
 
-# =========================
-# Config
-# =========================
 AFTERSHIP_KEY = os.environ["AFTERSHIP_API_KEY"]
 BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
 AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")
 
-# Order ID should come from custom_fields.external_order_id by default
+# Use external_order_id for Order ID by default
 ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "external_order_id")
 
-# Dedupe controls
 DEDUP_DAYS = int(os.environ.get("DEDUP_DAYS", "30"))
 DEDUP_ENABLED = os.environ.get("DEDUP_ENABLED", "1") == "1"
 DEBUG_AFTERSHIP = os.environ.get("DEBUG_AFTERSHIP", "0") == "1"
 
 STATE_PATH = os.path.join("state", "handled.json")
-
-# Courier mapping file (make it accessible to Pages too)
 COURIERS_CSV_PATH = os.environ.get("COURIERS_CSV_PATH", "docs/data/couriers.csv")
 
 
-# =========================
-# Helpers
-# =========================
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -68,23 +59,13 @@ def load_courier_map(path: str) -> dict:
     return m
 
 
-def get_custom_field(tracking: dict, field_name: str) -> str:
-    cf = tracking.get("custom_fields")
-
-    if isinstance(cf, dict):
-        val = cf.get(field_name)
-        return "" if val is None else str(val)
-
-    if isinstance(cf, list):
-        for item in cf:
-            if isinstance(item, dict) and item.get("name") == field_name:
-                val = item.get("value")
-                return "" if val is None else str(val)
-
-    return ""
-
-
 def get_all_custom_fields(tracking: dict) -> dict:
+    """
+    AfterShip can return custom_fields as:
+    - dict: {"external_order_id":"...", ...}
+    - list of {name,value}: [{"name":"external_order_id","value":"..."}]
+    Normalize to a dict[str,str].
+    """
     cf = tracking.get("custom_fields")
 
     if isinstance(cf, dict):
@@ -147,9 +128,6 @@ def mark_handled(trackings: list[dict], handled_state: dict, now: datetime) -> N
         handled_state[key_for_tracking(t)] = now.isoformat()
 
 
-# =========================
-# AfterShip API
-# =========================
 def get_trackings_by_tag(limit: int = 200) -> list[dict]:
     headers = {"Content-Type": "application/json", "as-api-key": AFTERSHIP_KEY}
     params = {"tag": AFTERSHIP_TAG, "limit": str(limit)}
@@ -167,9 +145,6 @@ def get_trackings_by_tag(limit: int = 200) -> list[dict]:
     return data.get("data", {}).get("trackings", [])
 
 
-# =========================
-# Output
-# =========================
 def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
     rows = []
     for t in trackings:
@@ -185,12 +160,12 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
 
         custom_fields = get_all_custom_fields(t)
 
-        # Business fields (from custom_fields)
+        # ✅ Business fields (from custom_fields)
         order_id = custom_fields.get(ORDER_ID_CUSTOM_FIELD, "")
         sales_office_id = custom_fields.get("sales_office_id", "")
         source = custom_fields.get("source", "")
 
-        # Rule 1: exclude tracking info when custom_1 == ParcelHub
+        # ✅ Rule 1: if custom_1 == ParcelHub -> wipe tracking info
         is_parcelhub = custom_fields.get("custom_1", "").strip().lower() == "parcelhub"
 
         tracking_number = t.get("tracking_number") or ""
@@ -202,7 +177,6 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
         updated_at = t.get("updated_at") or ""
 
         if is_parcelhub:
-            # Wipe all tracking-related fields
             tracking_number = ""
             slug = ""
             courier_name = ""
@@ -225,7 +199,10 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
             "sales_office_id": sales_office_id,
             "source": source,
 
+            # ✅ Keep only the clean dict in JSON (no duplicate string)
             "custom_fields": custom_fields,
+
+            # ✅ Keep a stringified version ONLY for XLSX convenience
             "custom_fields_json": json.dumps(custom_fields, ensure_ascii=False),
 
             "last_checkpoint_id": last_checkpoint_id,
@@ -237,13 +214,20 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
 
 
 def write_json(rows: list[dict], path: str) -> None:
+    # ✅ Remove the ugly duplicate field from JSON export
+    clean_items = []
+    for r in rows:
+        rr = dict(r)
+        rr.pop("custom_fields_json", None)
+        clean_items.append(rr)
+
     payload = {
         "generated_at": utcnow().isoformat(),
         "tag": AFTERSHIP_TAG,
         "dedup_enabled": DEDUP_ENABLED,
         "dedup_days": DEDUP_DAYS,
-        "count": len(rows),
-        "items": rows,
+        "count": len(clean_items),
+        "items": clean_items,
     }
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
