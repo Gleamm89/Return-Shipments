@@ -169,7 +169,7 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
         is_parcelhub = custom_fields.get("custom_1", "").strip().lower() == "parcelhub"
 
         tracking_number = t.get("tracking_number") or ""
-        source = t.get("source") or last_cp.get("source") or ""
+        source = t.get("source") or "CSV?"
         status_tag = t.get("tag") or AFTERSHIP_TAG or ""
         title = t.get("title") or ""
         last_checkpoint_id = (last_cp.get("id") or last_cp.get("checkpoint_id") or "")
