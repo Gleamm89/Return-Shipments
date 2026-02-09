@@ -10,7 +10,7 @@ BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
 AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")
 
-# Use external_order_id for Order ID by default
+# Default custom field name to read for external order id
 ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "external_order_id")
 
 DEDUP_DAYS = int(os.environ.get("DEDUP_DAYS", "30"))
@@ -147,7 +147,14 @@ def get_trackings_by_tag(limit: int = 200) -> list[dict]:
 
 def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
     rows = []
+
     for t in trackings:
+        custom_fields = get_all_custom_fields(t)
+
+        # 2) Remove all rows where custom_1 == ParcelHub (case-insensitive)
+        if custom_fields.get("custom_1", "").strip().lower() == "parcelhub":
+            continue
+
         last_cp = extract_last_checkpoint(t)
 
         location = last_cp.get("location")
@@ -158,41 +165,27 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
         slug = t.get("slug") or ""
         courier_name = courier_map.get(slug, slug)
 
-        custom_fields = get_all_custom_fields(t)
+        # 1) external_order_id fallback to top-level order_id if empty
+        external_order_id = custom_fields.get(ORDER_ID_CUSTOM_FIELD, "").strip()
+        order_id = external_order_id if external_order_id else (str(t.get("order_id") or "")).strip()
 
-        # ✅ Business fields (from custom_fields)
-        order_id = custom_fields.get(ORDER_ID_CUSTOM_FIELD, "")
-        sales_office_id = custom_fields.get("sales_office_id", "")
+        sales_office_id = custom_fields.get("sales_office_id", "").strip()
 
+        # 3) Display tracking info normally; no source validation
+        tracking_number = (t.get("tracking_number") or "").strip()
+        status_tag = (t.get("tag") or AFTERSHIP_TAG or "").strip()
+        title = (t.get("title") or "").strip()
+        source = (t.get("source") or "").strip()
 
-        # ✅ Rule 1: if custom_1 == ParcelHub -> wipe tracking info
-        is_parcelhub = custom_fields.get("custom_1", "").strip().lower() == "parcelhub"
-
-        tracking_number = t.get("tracking_number") or ""
-        source = t.get("source") or "CSV?"
-        status_tag = t.get("tag") or AFTERSHIP_TAG or ""
-        title = t.get("title") or ""
         last_checkpoint_id = (last_cp.get("id") or last_cp.get("checkpoint_id") or "")
         last_checkpoint_time = (last_cp.get("checkpoint_time") or "")
         last_checkpoint_location = (location or "")
-        updated_at = t.get("updated_at") or ""
-
-        if is_parcelhub:
-            tracking_number = ""
-            slug = ""
-            courier_name = ""
-            status_tag = ""
-            title = ""
-            last_checkpoint_id = ""
-            last_checkpoint_time = ""
-            last_checkpoint_location = ""
-            updated_at = ""
+        updated_at = (t.get("updated_at") or "")
 
         rows.append({
             "tracking_number": tracking_number,
             "carrier_slug": slug,
             "courier_name": courier_name,
-
             "status_tag": status_tag,
             "title": title,
 
@@ -200,10 +193,7 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
             "sales_office_id": sales_office_id,
             "source": source,
 
-            # ✅ Keep only the clean dict in JSON (no duplicate string)
             "custom_fields": custom_fields,
-
-            # ✅ Keep a stringified version ONLY for XLSX convenience
             "custom_fields_json": json.dumps(custom_fields, ensure_ascii=False),
 
             "last_checkpoint_id": last_checkpoint_id,
@@ -211,11 +201,12 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
             "last_checkpoint_location": last_checkpoint_location,
             "updated_at": updated_at,
         })
+
     return rows
 
 
 def write_json(rows: list[dict], path: str) -> None:
-    # ✅ Remove the ugly duplicate field from JSON export
+    # Keep JSON clean: remove custom_fields_json (string) from JSON output
     clean_items = []
     for r in rows:
         rr = dict(r)
@@ -269,6 +260,11 @@ def main():
 
     trackings = get_trackings_by_tag(limit=200)
 
+    if DEBUG_AFTERSHIP and trackings:
+        print("=== RAW AFTERSHIP TRACKING (1 item) ===")
+        print(json.dumps(trackings[0], indent=2))
+        print("=== END RAW TRACKING ===")
+
     new_trackings = [t for t in trackings if not should_skip(t, handled, now)]
     rows = normalize(new_trackings, courier_map)
 
@@ -282,9 +278,10 @@ def main():
 
     print(
         f"Tag={AFTERSHIP_TAG} API returned={len(trackings)} "
-        f"after_dedupe={len(new_trackings)} "
+        f"after_dedupe={len(new_trackings)} exported={len(rows)} "
         f"(dedup_enabled={DEDUP_ENABLED} dedup_days={DEDUP_DAYS})"
     )
+
 
 if __name__ == "__main__":
     main()
