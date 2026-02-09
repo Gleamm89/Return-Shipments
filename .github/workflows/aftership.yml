@@ -48,7 +48,7 @@ jobs:
           DEDUP_DAYS: "0"
 
           # Optional: set to "1" to print 1 raw tracking to logs (debug)
-          DEBUG_AFTERSHIP: "1"
+          DEBUG_AFTERSHIP: "0"
         run: |
           python scripts/aftership_intransit_export.py
 
