@@ -32,7 +32,7 @@ function carrierText(r){
 function renderTable(list){
   const tbody = $("tbody");
   if(!list.length){
-    tbody.innerHTML = `<tr><td colspan="6" class="muted">No records to show.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="muted">No records to show.</td></tr>`;
     $("countText").textContent = "0 records";
     return;
   }
@@ -43,6 +43,8 @@ function renderTable(list){
       <td>${carrierText(r)}</td>
       <td>${r.status_tag || ""}</td>
       <td>${r.order_id || ""}</td>
+      <td>${r.sales_office_id || ""}</td>
+      <td>${r.source || ""}</td>
       <td>${fmtDate(r.last_checkpoint_time)}</td>
       <td>${fmtDate(r.updated_at)}</td>
     </tr>
@@ -63,6 +65,8 @@ function applySearch(){
     const hay = [
       r.tracking_number,
       r.order_id,
+      r.sales_office_id,
+      r.source,
       r.courier_name,     // NEW: searchable
       r.carrier_slug,
       r.status_tag,
