@@ -268,6 +268,14 @@ def main():
 
     trackings = get_trackings_by_tag(limit=200)
 
+
+    # ✅ Dump RAW AfterShip API payload (no transformation)
+os.makedirs("output", exist_ok=True)
+with open("output/aftership_raw_trackings.json", "w", encoding="utf-8") as f:
+    json.dump(trackings, f, ensure_ascii=False, indent=2)
+print("Wrote output/aftership_raw_trackings.json")
+
+
     if DEBUG_AFTERSHIP and trackings:
         print("=== RAW AFTERSHIP TRACKING (1 item) ===")
         print(json.dumps(trackings[0], indent=2))
