@@ -12,7 +12,9 @@ AFTERSHIP_KEY = os.environ["AFTERSHIP_API_KEY"]
 BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
 AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")
-ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "OrderID")
+
+# Order ID should come from custom_fields.external_order_id by default
+ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "external_order_id")
 
 # Dedupe controls
 DEDUP_DAYS = int(os.environ.get("DEDUP_DAYS", "30"))
@@ -183,23 +185,53 @@ def normalize(trackings: list[dict], courier_map: dict) -> list[dict]:
 
         custom_fields = get_all_custom_fields(t)
 
+        # Business fields (from custom_fields)
+        order_id = custom_fields.get(ORDER_ID_CUSTOM_FIELD, "")
+        sales_office_id = custom_fields.get("sales_office_id", "")
+        source = custom_fields.get("source", "")
+
+        # Rule 1: exclude tracking info when custom_1 == ParcelHub
+        is_parcelhub = custom_fields.get("custom_1", "").strip().lower() == "parcelhub"
+
+        tracking_number = t.get("tracking_number") or ""
+        status_tag = t.get("tag") or AFTERSHIP_TAG or ""
+        title = t.get("title") or ""
+        last_checkpoint_id = (last_cp.get("id") or last_cp.get("checkpoint_id") or "")
+        last_checkpoint_time = (last_cp.get("checkpoint_time") or "")
+        last_checkpoint_location = (location or "")
+        updated_at = t.get("updated_at") or ""
+
+        if is_parcelhub:
+            # Wipe all tracking-related fields
+            tracking_number = ""
+            slug = ""
+            courier_name = ""
+            status_tag = ""
+            title = ""
+            last_checkpoint_id = ""
+            last_checkpoint_time = ""
+            last_checkpoint_location = ""
+            updated_at = ""
+
         rows.append({
-            "tracking_number": t.get("tracking_number") or "",
+            "tracking_number": tracking_number,
             "carrier_slug": slug,
             "courier_name": courier_name,
 
-            "status_tag": t.get("tag") or AFTERSHIP_TAG or "",
-            "title": t.get("title") or "",
+            "status_tag": status_tag,
+            "title": title,
 
-            "order_id": get_custom_field(t, ORDER_ID_CUSTOM_FIELD),
+            "order_id": order_id,
+            "sales_office_id": sales_office_id,
+            "source": source,
 
             "custom_fields": custom_fields,
             "custom_fields_json": json.dumps(custom_fields, ensure_ascii=False),
 
-            "last_checkpoint_id": (last_cp.get("id") or last_cp.get("checkpoint_id") or ""),
-            "last_checkpoint_time": (last_cp.get("checkpoint_time") or ""),
-            "last_checkpoint_location": (location or ""),
-            "updated_at": t.get("updated_at") or "",
+            "last_checkpoint_id": last_checkpoint_id,
+            "last_checkpoint_time": last_checkpoint_time,
+            "last_checkpoint_location": last_checkpoint_location,
+            "updated_at": updated_at,
         })
     return rows
 
@@ -228,6 +260,8 @@ def write_xlsx(rows: list[dict], path: str) -> None:
         "courier_name",
         "status_tag",
         "order_id",
+        "sales_office_id",
+        "source",
         "last_checkpoint_id",
         "last_checkpoint_time",
         "last_checkpoint_location",
