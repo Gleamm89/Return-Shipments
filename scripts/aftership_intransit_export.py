@@ -268,18 +268,6 @@ def main():
 
     trackings = get_trackings_by_tag(limit=200)
 
-    # ✅ DEBUG: dump RAW AfterShip API payload (no transformation)
-    os.makedirs("output", exist_ok=True)
-    with open("output/aftership_raw_trackings.json", "w", encoding="utf-8") as f:
-        json.dump(trackings, f, ensure_ascii=False, indent=2)
-    print("Wrote output/aftership_raw_trackings.json")
-
-    # ✅ DEBUG: print ONE raw tracking to logs
-    if DEBUG_AFTERSHIP and trackings:
-        print("=== RAW AFTERSHIP TRACKING (1 item) ===")
-        print(json.dumps(trackings[0], indent=2))
-        print("=== END RAW TRACKING ===")
-
     new_trackings = [t for t in trackings if not should_skip(t, handled, now)]
     rows = normalize(new_trackings, courier_map)
 
