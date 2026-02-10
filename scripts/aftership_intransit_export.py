@@ -8,7 +8,7 @@ from openpyxl import Workbook
 AFTERSHIP_KEY = os.environ["AFTERSHIP_API_KEY"]
 BASE_URL = "https://api.aftership.com/tracking/2026-01"
 
-AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Delivered")
+AFTERSHIP_TAG = os.environ.get("AFTERSHIP_TAG", "Pending")
 
 # Default custom field name to read for external order id
 ORDER_ID_CUSTOM_FIELD = os.environ.get("ORDER_ID_CUSTOM_FIELD", "external_order_id")
