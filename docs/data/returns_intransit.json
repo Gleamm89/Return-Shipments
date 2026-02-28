@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-02-27T20:57:47.253339+00:00",
+  "generated_at": "2026-02-28T04:35:25.063114+00:00",
   "tag": "Delivered",
   "dedup_enabled": false,
   "dedup_days": 0,
-  "count": 49,
+  "count": 73,
   "items": [
     {
       "tracking_number": "01475240781573",
@@ -312,24 +312,6 @@
       "updated_at": "2026-02-27T11:35:57+00:00"
     },
     {
-      "tracking_number": "81229710802",
-      "carrier_slug": "dpd-ro",
-      "courier_name": "DPD Romania",
-      "status_tag": "Delivered",
-      "title": "81229710802",
-      "order_id": "0035000330018",
-      "sales_office_id": "3012",
-      "source": "api",
-      "custom_fields": {
-        "external_order_id": "0035000330018",
-        "sales_office_id": "3012"
-      },
-      "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-18T11:18:33+02:00",
-      "last_checkpoint_location": "GR. VARNA",
-      "updated_at": "2026-02-27T11:36:03+00:00"
-    },
-    {
       "tracking_number": "81229709911",
       "carrier_slug": "dpd-ro",
       "courier_name": "DPD Romania",
@@ -346,6 +328,24 @@
       "last_checkpoint_time": "2026-02-18T11:18:33+02:00",
       "last_checkpoint_location": "GR. VARNA",
       "updated_at": "2026-02-27T11:35:59+00:00"
+    },
+    {
+      "tracking_number": "81229710802",
+      "carrier_slug": "dpd-ro",
+      "courier_name": "DPD Romania",
+      "status_tag": "Delivered",
+      "title": "81229710802",
+      "order_id": "0035000330018",
+      "sales_office_id": "3012",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0035000330018",
+        "sales_office_id": "3012"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-18T11:18:33+02:00",
+      "last_checkpoint_location": "GR. VARNA",
+      "updated_at": "2026-02-27T11:36:03+00:00"
     },
     {
       "tracking_number": "UTV568233189",
@@ -384,24 +384,6 @@
       "updated_at": "2026-02-27T11:26:00+00:00"
     },
     {
-      "tracking_number": "UTV718152928",
-      "carrier_slug": "packs",
-      "courier_name": "Packs",
-      "status_tag": "Delivered",
-      "title": "UTV718152928",
-      "order_id": "0031009955398",
-      "sales_office_id": "0303",
-      "source": "api",
-      "custom_fields": {
-        "external_order_id": "0031009955398",
-        "sales_office_id": "0303"
-      },
-      "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T11:20:09+01:00",
-      "last_checkpoint_location": ",Netherlands",
-      "updated_at": "2026-02-27T11:25:52+00:00"
-    },
-    {
       "tracking_number": "00KNRNRV",
       "carrier_slug": "gls-netherlands-api",
       "courier_name": "GLS Netherlands",
@@ -418,6 +400,24 @@
       "last_checkpoint_time": "2026-02-27T13:08:43+01:00",
       "last_checkpoint_location": "Netherlands",
       "updated_at": "2026-02-27T12:55:54+00:00"
+    },
+    {
+      "tracking_number": "UTV718152928",
+      "carrier_slug": "packs",
+      "courier_name": "Packs",
+      "status_tag": "Delivered",
+      "title": "UTV718152928",
+      "order_id": "0031009955398",
+      "sales_office_id": "0303",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0031009955398",
+        "sales_office_id": "0303"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-27T11:20:09+01:00",
+      "last_checkpoint_location": ",Netherlands",
+      "updated_at": "2026-02-27T11:25:52+00:00"
     },
     {
       "tracking_number": "UTV702438996",
@@ -438,24 +438,6 @@
       "updated_at": "2026-02-27T11:23:56+00:00"
     },
     {
-      "tracking_number": "01475240781527",
-      "carrier_slug": "dpd-de",
-      "courier_name": "DPD Germany",
-      "status_tag": "Delivered",
-      "title": "01475240781527",
-      "order_id": "0049010215823",
-      "sales_office_id": "0301",
-      "source": "api",
-      "custom_fields": {
-        "external_order_id": "0049010215823",
-        "sales_office_id": "0301"
-      },
-      "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T13:23:53+01:00",
-      "last_checkpoint_location": "Nohra (DE), Germany",
-      "updated_at": "2026-02-27T13:12:23+00:00"
-    },
-    {
       "tracking_number": "01475240781526",
       "carrier_slug": "dpd-de",
       "courier_name": "DPD Germany",
@@ -472,6 +454,24 @@
       "last_checkpoint_time": "2026-02-27T13:23:53+01:00",
       "last_checkpoint_location": "Nohra (DE), Germany",
       "updated_at": "2026-02-27T13:12:22+00:00"
+    },
+    {
+      "tracking_number": "01475240781527",
+      "carrier_slug": "dpd-de",
+      "courier_name": "DPD Germany",
+      "status_tag": "Delivered",
+      "title": "01475240781527",
+      "order_id": "0049010215823",
+      "sales_office_id": "0301",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0049010215823",
+        "sales_office_id": "0301"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-27T13:23:53+01:00",
+      "last_checkpoint_location": "Nohra (DE), Germany",
+      "updated_at": "2026-02-27T13:12:23+00:00"
     },
     {
       "tracking_number": "01475240783219",
@@ -708,177 +708,616 @@
       "updated_at": "2026-02-27T10:05:02+00:00"
     },
     {
-      "tracking_number": "996011434800761134",
-      "carrier_slug": "swiss-post",
-      "courier_name": "Swiss Post",
+      "tracking_number": "518157122733",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "996011434800761134",
-      "order_id": "6001654937",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157122733",
+      "order_id": "B2BDS11015297",
+      "sales_office_id": "4468",
+      "source": "api",
       "custom_fields": {
-        "courier": "swiss-post"
+        "external_order_id": "B2BDS11015297",
+        "sales_office_id": "4468"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T10:16:57+01:00",
-      "last_checkpoint_location": "CH, Switzerland",
-      "updated_at": "2026-02-27T09:44:42+00:00"
+      "last_checkpoint_time": "2026-02-28T09:59:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:39:08+00:00"
     },
     {
-      "tracking_number": "1Z6X581R9191962170",
-      "carrier_slug": "ups-api",
-      "courier_name": "ups-api",
+      "tracking_number": "518157121834",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "1Z6X581R9191962170",
-      "order_id": "6001653005",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157121834",
+      "order_id": "B2BDS11015420",
+      "sales_office_id": "4468",
+      "source": "api",
       "custom_fields": {
-        "courier": "UPS",
-        "custom_1": "returns_ups"
+        "external_order_id": "B2BDS11015420",
+        "sales_office_id": "4468"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T10:28:20+01:00",
-      "last_checkpoint_location": "1 MARY KINGSLEYSTRAAT, VENLO, 5928SK, NL, Netherlands",
-      "updated_at": "2026-02-27T10:14:40+00:00"
+      "last_checkpoint_time": "2026-02-28T11:19:00+09:00",
+      "last_checkpoint_location": "群馬営業所, Japan",
+      "updated_at": "2026-02-28T02:39:03+00:00"
     },
     {
-      "tracking_number": "05222069761746",
-      "carrier_slug": "dpd",
-      "courier_name": "DPD",
+      "tracking_number": "518157122560",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "05222069761746",
-      "order_id": "6001656189",
-      "sales_office_id": "",
-      "source": "csv_importer",
-      "custom_fields": {},
-      "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-26T13:16:35+01:00",
-      "last_checkpoint_location": "Vijfhuizen, NL, Netherlands",
-      "updated_at": "2026-02-27T08:44:43+00:00"
-    },
-    {
-      "tracking_number": "1Z1804F10306871103",
-      "carrier_slug": "ups-api",
-      "courier_name": "ups-api",
-      "status_tag": "Delivered",
-      "title": "1Z1804F10306871103",
-      "order_id": "6001656041",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157122560",
+      "order_id": "B2BDS11015428",
+      "sales_office_id": "4468",
+      "source": "api",
       "custom_fields": {
-        "courier": "UPS",
-        "custom_1": "returns_ups"
+        "external_order_id": "B2BDS11015428",
+        "sales_office_id": "4468"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-26T11:56:28-08:00",
-      "last_checkpoint_location": "REDLANDS, CA, 92374, US, United States",
-      "updated_at": "2026-02-27T08:14:35+00:00"
+      "last_checkpoint_time": "2026-02-28T10:07:00+09:00",
+      "last_checkpoint_location": "名東営業所, Japan",
+      "updated_at": "2026-02-28T01:39:04+00:00"
     },
     {
-      "tracking_number": "05222006534598",
-      "carrier_slug": "dpd",
-      "courier_name": "DPD",
+      "tracking_number": "518157121624",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "05222006534598",
-      "order_id": "6001653165",
-      "sales_office_id": "",
-      "source": "csv_importer",
-      "custom_fields": {},
-      "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-01-13T09:31:17+01:00",
-      "last_checkpoint_location": "Oirschot (NL), Netherlands",
-      "updated_at": "2026-02-27T04:14:38+00:00"
-    },
-    {
-      "tracking_number": "REC000080636015",
-      "carrier_slug": "spanish-seur-ftp",
-      "courier_name": "spanish-seur-ftp",
-      "status_tag": "Delivered",
-      "title": "REC000080636015",
-      "order_id": "6001653524",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157121624",
+      "order_id": "B2BDS11015491",
+      "sales_office_id": "4468",
+      "source": "api",
       "custom_fields": {
-        "courier": "spanish-seur-ftp",
-        "custom_1": "Returns_spanish-seur"
+        "external_order_id": "B2BDS11015491",
+        "sales_office_id": "4468"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T13:10:00",
-      "last_checkpoint_location": "",
-      "updated_at": "2026-02-27T14:20:27+00:00"
+      "last_checkpoint_time": "2026-02-28T11:35:00+09:00",
+      "last_checkpoint_location": "岡崎営業所, Japan",
+      "updated_at": "2026-02-28T02:39:05+00:00"
     },
     {
-      "tracking_number": "REC000080663991",
-      "carrier_slug": "spanish-seur-ftp",
-      "courier_name": "spanish-seur-ftp",
+      "tracking_number": "518157121613",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "REC000080663991",
-      "order_id": "6001655909",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157121613",
+      "order_id": "B2BDS11015491",
+      "sales_office_id": "4468",
+      "source": "api",
       "custom_fields": {
-        "courier": "spanish-seur-ftp",
-        "custom_1": "Returns_spanish-seur"
+        "external_order_id": "B2BDS11015491",
+        "sales_office_id": "4468"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-26T15:29:00",
-      "last_checkpoint_location": "",
-      "updated_at": "2026-02-27T04:14:34+00:00"
+      "last_checkpoint_time": "2026-02-28T11:35:00+09:00",
+      "last_checkpoint_location": "岡崎営業所, Japan",
+      "updated_at": "2026-02-28T02:39:05+00:00"
     },
     {
-      "tracking_number": "REC000080638608",
-      "carrier_slug": "spanish-seur-ftp",
-      "courier_name": "spanish-seur-ftp",
+      "tracking_number": "518157123341",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "REC000080638608",
-      "order_id": "6001654439",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157123341",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
       "custom_fields": {
-        "courier": "spanish-seur-ftp",
-        "custom_1": "Returns_spanish-seur"
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T08:50:00",
-      "last_checkpoint_location": "",
-      "updated_at": "2026-02-27T08:20:58+00:00"
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:15+00:00"
     },
     {
-      "tracking_number": "REC000080636248",
-      "carrier_slug": "spanish-seur-ftp",
-      "courier_name": "spanish-seur-ftp",
+      "tracking_number": "518157123374",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "REC000080636248",
-      "order_id": "6001653805",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157123374",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
       "custom_fields": {
-        "courier": "spanish-seur-ftp",
-        "custom_1": "Returns_spanish-seur"
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T13:00:00",
-      "last_checkpoint_location": "",
-      "updated_at": "2026-02-27T16:19:31+00:00"
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:12+00:00"
     },
     {
-      "tracking_number": "REC000080664257",
-      "carrier_slug": "spanish-seur-ftp",
-      "courier_name": "spanish-seur-ftp",
+      "tracking_number": "518157123363",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
       "status_tag": "Delivered",
-      "title": "REC000080664257",
-      "order_id": "6001655930",
-      "sales_office_id": "",
-      "source": "csv_importer",
+      "title": "518157123363",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
       "custom_fields": {
-        "courier": "spanish-seur-ftp",
-        "custom_1": "Returns_spanish-seur"
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
       },
       "last_checkpoint_id": "",
-      "last_checkpoint_time": "2026-02-27T16:44:00",
-      "last_checkpoint_location": "",
-      "updated_at": "2026-02-27T16:19:11+00:00"
+      "last_checkpoint_time": "2026-02-28T09:25:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:14+00:00"
+    },
+    {
+      "tracking_number": "518157123326",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123326",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:13+00:00"
+    },
+    {
+      "tracking_number": "518157123385",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123385",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:27:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:13+00:00"
+    },
+    {
+      "tracking_number": "518157123352",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123352",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:25:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:13+00:00"
+    },
+    {
+      "tracking_number": "518157123396",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123396",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:13+00:00"
+    },
+    {
+      "tracking_number": "518157123315",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123315",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:09+00:00"
+    },
+    {
+      "tracking_number": "518157123330",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123330",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:11+00:00"
+    },
+    {
+      "tracking_number": "518157123282",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123282",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:27:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:08+00:00"
+    },
+    {
+      "tracking_number": "518157123293",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123293",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:27:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:11+00:00"
+    },
+    {
+      "tracking_number": "518157123304",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123304",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:24:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:07+00:00"
+    },
+    {
+      "tracking_number": "518157122910",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157122910",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:26:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:09+00:00"
+    },
+    {
+      "tracking_number": "518157123271",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123271",
+      "order_id": "0081000027596",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027596",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T09:25:00+09:00",
+      "last_checkpoint_location": "横浜営業所, Japan",
+      "updated_at": "2026-02-28T01:07:07+00:00"
+    },
+    {
+      "tracking_number": "518157121635",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157121635",
+      "order_id": "B2BDS11015099",
+      "sales_office_id": "4468",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "B2BDS11015099",
+        "sales_office_id": "4468"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T10:05:00+09:00",
+      "last_checkpoint_location": "桐生営業所, Japan",
+      "updated_at": "2026-02-28T01:37:07+00:00"
+    },
+    {
+      "tracking_number": "518157123400",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157123400",
+      "order_id": "0081000027694",
+      "sales_office_id": "4414",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "0081000027694",
+        "sales_office_id": "4414"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T08:05:00+09:00",
+      "last_checkpoint_location": "八千代営業所, Japan",
+      "updated_at": "2026-02-27T23:37:10+00:00"
+    },
+    {
+      "tracking_number": "518157124741",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124741",
+      "order_id": "250-9025444-1161453",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-9025444-1161453",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T10:50:00+09:00",
+      "last_checkpoint_location": "千里営業所, Japan",
+      "updated_at": "2026-02-28T02:16:05+00:00"
+    },
+    {
+      "tracking_number": "518157124730",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124730",
+      "order_id": "250-9025444-1161453",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-9025444-1161453",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T10:50:00+09:00",
+      "last_checkpoint_location": "千里営業所, Japan",
+      "updated_at": "2026-02-28T02:16:00+00:00"
+    },
+    {
+      "tracking_number": "518157124855",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124855",
+      "order_id": "250-9089708-2890213",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-9089708-2890213",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:05:00+09:00",
+      "last_checkpoint_location": "大阪鶴見営業所, Japan",
+      "updated_at": "2026-02-28T02:46:07+00:00"
+    },
+    {
+      "tracking_number": "518157124914",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124914",
+      "order_id": "250-2281533-4710263",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-2281533-4710263",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:57:00+09:00",
+      "last_checkpoint_location": "台東営業所, Japan",
+      "updated_at": "2026-02-28T03:45:59+00:00"
+    },
+    {
+      "tracking_number": "518157124833",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124833",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:48:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:09+00:00"
+    },
+    {
+      "tracking_number": "518157124752",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124752",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:03+00:00"
+    },
+    {
+      "tracking_number": "518157124796",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124796",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:50:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:00+00:00"
+    },
+    {
+      "tracking_number": "518157124822",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124822",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:06+00:00"
+    },
+    {
+      "tracking_number": "518157124785",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124785",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:01+00:00"
+    },
+    {
+      "tracking_number": "518157124811",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124811",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:15+00:00"
+    },
+    {
+      "tracking_number": "518157124763",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124763",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:00+00:00"
+    },
+    {
+      "tracking_number": "518157124774",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124774",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:48:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:04+00:00"
+    },
+    {
+      "tracking_number": "518157124800",
+      "carrier_slug": "sagawa",
+      "courier_name": "Sagawa",
+      "status_tag": "Delivered",
+      "title": "518157124800",
+      "order_id": "250-3199247-2392626",
+      "sales_office_id": "4564",
+      "source": "api",
+      "custom_fields": {
+        "external_order_id": "250-3199247-2392626",
+        "sales_office_id": "4564"
+      },
+      "last_checkpoint_id": "",
+      "last_checkpoint_time": "2026-02-28T11:49:00+09:00",
+      "last_checkpoint_location": "那須営業所, Japan",
+      "updated_at": "2026-02-28T03:14:03+00:00"
     }
   ]
 }
